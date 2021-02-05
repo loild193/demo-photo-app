@@ -1,53 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button, Form, FormGroup, Input, Label } from 'reactstrap'
-import Select from 'react-select'
+import { Button, FormGroup } from 'reactstrap'
 import { PHOTO_CATEGORY_OPTIONS } from 'constants/global'
-import Images from 'constants/images'
-
-function PhotoForm(props) {
-  return (
-    <Form>
-      <FormGroup>
-        <Label for="titleId">Title</Label>
-        <Input name="title" id="titleId" placeholder="Eg: Vjp pr0..." />
-      </FormGroup>
-
-      <FormGroup>
-        <Label for="categoryId">Category</Label>
-        <Select 
-          id="categoryId"
-          name="categoryId"
-
-          placeholder="Your photo's category?"
-          options={PHOTO_CATEGORY_OPTIONS}
-        />
-      </FormGroup>
-
-      <FormGroup>
-        <Label for="categoryId">Category</Label>
-
-        <div>
-          <Button type="button" outline color="primary">
-            Random a photo
-          </Button>
-        </div>
-        <div>
-          <img 
-            width="200px" 
-            height="200px" 
-            src={Images.BLUE_BG}
-            alt="Random"
-          />
-        </div>
-      </FormGroup>
-
-      <FormGroup>
-        <Button color="primary">Add to album</Button>
-      </FormGroup>
-    </Form>
-  )
-}
+import { FastField, Form, Formik } from 'formik'
+import InputField from 'custom-fields/InputField'
+import SelectField from 'custom-fields/SelectField'
+import RandomPhotoField from 'custom-fields/RandomPhotoField'
 
 PhotoForm.propTypes = {
   onSubmit: PropTypes.func,
@@ -55,6 +13,58 @@ PhotoForm.propTypes = {
 
 PhotoForm.defaultProps = {
   onSubmit: null,
+}
+
+function PhotoForm(props) {
+  const initialValues = {
+    title: '',
+    categoryId: null,
+  }
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      onSubmit={values => console.log(values)}
+    >
+      {formikProps => {
+        // do something
+        const { values, errors, touched} = formikProps;
+        console.log({values, errors, touched})
+
+        return (
+          <Form>
+            <FastField 
+              name="title"
+              component={InputField}
+
+              label="Title"
+              placeholder="Eg: Vjp pr0..."
+            />
+
+            <FastField 
+              name="categoryId"
+              component={SelectField}
+
+              label="Category"
+              placeholder="Your photo's category?"
+              options={PHOTO_CATEGORY_OPTIONS}
+            />
+
+            <FastField 
+              name="photo"
+              component={RandomPhotoField}
+
+              label="Photo"
+            />
+
+            <FormGroup>
+              <Button type="submit" color="primary">Add to album</Button>
+            </FormGroup>
+          </Form>
+        )
+      }}
+    </Formik>
+  )
 }
 
 export default PhotoForm
