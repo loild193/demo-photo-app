@@ -3,7 +3,12 @@ import { Container } from 'reactstrap';
 
 import Banner from 'components/Banner';
 import Images from 'constants/images';
+import { useSelector } from 'react-redux';
 function MainPage(props) {
+  const photos = useSelector(state => state.photos);
+
+  console.log(photos)
+
   return (
     <div className="photo-main">
       <Banner title="Good luck :v" backgroundUrl={Images.PINK_BG} />
