@@ -5,17 +5,23 @@ import './PhotoCard.scss';
 PhotoCard.propTypes = {
   photo: PropTypes.object.isRequired,
   onRemoveClick: PropTypes.func,
+  onEditClick: PropTypes.func,
 }
 PhotoCard.defaultProps = {
   photo: {},
   onRemoveClick: null,
+  onEditClick: null,
 }
 
 function PhotoCard(props) {
-  const { photo, onRemoveClick } = props;
+  const { photo, onRemoveClick, onEditClick } = props;
 
   const handleRemoveClick = (photo) => {
     onRemoveClick && onRemoveClick(photo);
+  }
+
+  const handleEditClick = (photo) => {
+    onEditClick && onEditClick(photo);
   }
 
   return (
@@ -27,7 +33,7 @@ function PhotoCard(props) {
 
         <div className="photo__actions">
           <div>
-            <Button outline size="m" color="light">
+            <Button outline size="m" color="light" onClick={() => handleEditClick(photo)}>
               Edit
             </Button>
           </div>

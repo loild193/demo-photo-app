@@ -5,17 +5,23 @@ import PhotoCard from '../PhotoCard';
 PhotoList.propTypes = {
   photoList: PropTypes.array.isRequired,
   onPhotoRemoveClick: PropTypes.func,
+  onPhotoEditClick: PropTypes.func,
 }
 PhotoList.defaultProps = {
   photoList: [],
   onPhotoRemoveClick: null,
+  onPhotoEditClick: null,
 }
 
 function PhotoList(props) {
-  const { photoList, onPhotoRemoveClick } = props;
+  const { photoList, onPhotoRemoveClick, onPhotoEditClick } = props;
 
   const handlePhotoRemoveClick = (photo) => {
     onPhotoRemoveClick && onPhotoRemoveClick(photo);
+  }
+
+  const handlePhotoEditClick = (photo) => {
+    onPhotoEditClick && onPhotoEditClick(photo);
   }
 
   return (
@@ -26,6 +32,7 @@ function PhotoList(props) {
             <PhotoCard 
               photo={photo}
               onRemoveClick={handlePhotoRemoveClick}
+              onEditClick={handlePhotoEditClick}
             />
           </Col>
         ))

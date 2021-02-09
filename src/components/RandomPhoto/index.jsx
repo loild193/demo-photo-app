@@ -50,7 +50,12 @@ function RandomPhoto(props) {
 
       <div className="random-photo__photo">
         {
-          imageUrl && <img src={imageUrl} alt="Oops...Can't render..." />
+          imageUrl && 
+          <img 
+            src={imageUrl} 
+            alt="Oops...Can't render..." 
+            onError={handleRandomPhotoChange}
+          />
         }
       </div>
     </div>

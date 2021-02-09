@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Container } from 'reactstrap';
 
 import Banner from 'components/Banner';
@@ -9,10 +9,15 @@ import { removePhoto } from 'features/Photo/photoSlice';
 function MainPage(props) {
   const photos = useSelector(state => state.photos);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handlePhotoRemoveClick = (photo) => {
     const action = removePhoto(photo.id);
     dispatch(action);
+  }
+
+  const handlePhotoEditClick = (photo) => {
+    history.push(`photos/${photo.id}`);
   }
 
   return (
@@ -21,12 +26,13 @@ function MainPage(props) {
 
       <Container className="text-center">
         <div className="py-5">
-          <Link to="/photos/add" >Add new photo</Link>
+          <Link to="/photos/add">Add new photo</Link>
         </div>
 
         <PhotoList 
           photoList={photos}
           onPhotoRemoveClick={handlePhotoRemoveClick}
+          onPhotoEditClick={handlePhotoEditClick}
         />
       </Container>
     </div>
