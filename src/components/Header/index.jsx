@@ -23,11 +23,10 @@ function Header(props) {
           <Col xs="auto">
             <a
               className="header__link"
-              href="https://www.facebook.com/djokovic.novak.9883"
-              target="_blank"
+              href="/sign-in"
               rel="noreferrer"
             >
-              Tran Thu Ha
+              Sign In
             </a>
           </Col>
         </Row>
