@@ -7,6 +7,9 @@ import Header from "./components/Header";
 import NotFound from "./components/NotFound";
 import firebase from 'firebase';
 import { Button } from "reactstrap";
+import { useDispatch } from "react-redux";
+import { getMe } from "app/userSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 const Photo = React.lazy(() => import('./features/Photo'))
 
@@ -20,6 +23,7 @@ if (!firebase.apps.length) {
 }
 
 function App() {
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchProductList = async () => {
@@ -46,36 +50,24 @@ function App() {
         console.log('User is not logged in');
         return;
       }
-
-      // console.log('Logged in user: ', user.displayName);
-
-      // const token = await user.getIdToken();
-      // console.log('Logged in user token: ', token);
+      // get me when signed in
+      try {
+        const actionResult = await dispatch(getMe());
+        const currentUser = unwrapResult(actionResult);
+        console.log('current user: ', currentUser);
+      } catch (error) {
+        console.log('Error: ', error.message);
+      }
     });
     // Make sure we un-register Firebase observers when the component unmounts.
     return () => unregisterAuthObserver(); 
-  }, []);
-
-  const handleButtonClick = async () => {
-    try {
-      const params = {
-        _page: 1,
-        _limit: 10,
-      };
-      const response = await productApi.getAll(params);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  }, [dispatch]);
 
   return (
     <div className="photo-app">
       <Suspense fallback={<div>Loading 99%...</div>}>
         <Router>
           <Header />
-
-          <Button onClick={handleButtonClick}>Test</Button>
 
           <Switch>
             <Redirect exact from="/" to="/photos" />
