@@ -47,10 +47,10 @@ function App() {
         return;
       }
 
-      console.log('Logged in user: ', user.displayName);
+      // console.log('Logged in user: ', user.displayName);
 
-      const token = await user.getIdToken();
-      console.log('Logged in user token: ', token);
+      // const token = await user.getIdToken();
+      // console.log('Logged in user token: ', token);
     });
     // Make sure we un-register Firebase observers when the component unmounts.
     return () => unregisterAuthObserver(); 
